@@ -1,0 +1,61 @@
+Readme for KLSH code
+====================
+
+Code contents:
+createHashTable.m (function for creating the hash tables)
+compactbit.m hammingDist.m (for searching with the binary codes)
+demo.m (short demo)
+
+The main inputs to the file createHashTable.m are:
+
+-a p x p kernel matrix K over the sampled points (basically, just a
+kernel matrix over some subset of the data whose size is sublinear in
+the total data size)
+-number of hash bits (i.e. number of hash functions to create, say, 300)
+-t, parameter from KLSH (I usually use 30)
+
+Outputs:
+
+-H is a hash table of size p by numbits
+-W are the weights from KLSH, used for computing new hash keys
+
+Example:
+
+You have an p x p sampled kernel matrix K, then you have a bunch of
+test points for which you form the matrix Ktest, whose size is #test
+by p (so the i,j entry is the kernel function between test point i and
+training/sampled point j).  Run the following:
+
+[H W] = createHashTable(K,300,30);
+H_query = (Ktest*W)>0;
+
+This gives you the hash table H_query over the query/test points.
+
+Also included are a couple other useful files (from Rob Fergus' code), 
+compactbit.m and hammingDist.m.  The first compactifies
+the hash tables and the second computes Hamming distances.  
+
+One can plug the hash codes obtained by createHashTables.m into various 
+hashing search methods.  In the ICCV paper, we used the method of Charikar 
+to search the database, which is typically more efficient but considerably 
+more complicated.  For simplicity, we have provided a simpler linear search 
+code over the binary data; this is still substantially faster than a linear 
+scan over the input data.
+
+Example of use:
+
+CH = compactbit(H);
+CH_query = compactbit(H_query);
+Dist = hammingDist(CH_query,CH);
+
+This gives you a distance matrix of Hamming distances between query
+points and database points.
+
+Finally, the file demo.m runs a simple demo of the code over the iris data.
+
+Good luck!
+
+Citation:
+Brian Kulis and Kristen Grauman,
+"Kernelized Locality-Sensitive Hashing for Scalable Image Search",
+Proc. 12th International Conference on Computer Vision (ICCV), 2009.
