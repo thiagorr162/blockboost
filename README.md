@@ -1,5 +1,7 @@
 # BlockBoost: Scalable and Efficient Blocking through Boosting
 
+This repository contains the code for [BlockBoost: Scalable and Efficient Blocking through Boosting](https://proceedings.mlr.press/v238/ramos24a.html), published in AISTATS 2024.
+
 ## Package setup
 
 - All scripts should be run from the git repository root directory;
